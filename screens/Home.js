@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { StyleSheet, Text, View, useWindowDimensions, Pressable } from 'react-native'
+import { StyleSheet, Text, View, useWindowDimensions, Pressable ,Platform } from 'react-native'
 
 import Icons from 'react-native-vector-icons/Entypo'
 
@@ -39,7 +39,7 @@ const Home = ({ navigation, route }) => {
                 onPress={() => navigation.navigate('ScanObject')}
             />
             <Pressable
-                style={[styles.logoutContainer, { top: width - 2 }]}
+                style={styles.logoutContainer}
                 onPress={() => LogOut()}
             >
                 <Icons
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     logoutContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        top : Platform.OS === 'ios'? width - 2: 100
 
     },
     logoutText: {

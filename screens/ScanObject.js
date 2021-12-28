@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, TextInput, SafeAreaView, Button, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TextInput, SafeAreaView, Button, TouchableOpacity, FlatList, useWindowDimensions, Platform } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useDispatch, useSelector } from 'react-redux'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-
+import Icons from 'react-native-vector-icons/Entypo'
 import { add } from '../store/actions';
-
-const ScanObject = ({navigation,route}) => {
+import uuid from 'react-native-uuid';
+import CustomButton from '../Components/CustomButton';
+const ScanObject = ({ navigation, route }) => {
   console.log(route.params)
-  const data = useSelector(state => state)
+  //const data = useSelector(state => state)
   // const { items } = data
   const dispatch = useDispatch()
 
   const [subItems, setSubItems] = useState([{}])
-
   const [root, setRoot] = useState('')
-
-
+  const [data, setData] = useState([{}])
+  
 
   const onReadObject = e => {
     if (root === '') {
       setRoot(e.data)
-
+      setData([...data, { id: uuid.v4(), value: e.data }])
     }
     else {
-      setSubItems([...subItems, { id: e.data.length, value: e.data }])
+      setSubItems([...subItems, { id: uuid.v4(), value: e.data }])
+      setData([...data, { id: uuid.v4(), value: e.data }])
       //dispatch(add(e.data))
     }
   }
@@ -44,24 +45,22 @@ const ScanObject = ({navigation,route}) => {
   const renderItem = ({ item }) => {
 
     return (
-      <View style={styles.items}>
-        <TextInput
-          style={styles.item}
-          value={item.value}
-          multiline
 
-        />
-      </View>
+      <TextInput
+        style={styles.item}
+        value={item.value}
+        multiline
+      />
 
     );
   };
 
   return (
     <SafeAreaView>
-      <MaterialIcons 
-        name="arrow-back" size={30} 
-        style={{ color: '#051C60', marginLeft:10 }} 
-        onPress ={()=> navigation.goBack()}
+      <Icons
+        name="menu" size={30}
+        style={{ color: '#051C60', marginLeft: 10 }}
+        onPress={() => navigation.goBack()}
       />
       <View style={styles.container}>
         <View style={styles.inputContainr}>
@@ -71,28 +70,24 @@ const ScanObject = ({navigation,route}) => {
             value={root}
             editable={false}
           />
-
         </View>
+        <>
+        <View style = {styles.items}>
+          <FlatList
+            data={subItems}
+            renderItem={renderItem}
+            key={(item) => item.id}
+          />
+          </View>
+          <View>
+            <CustomButton text="Send" type="primary" />
+          </View>
 
-        {
-          <>
-            <Text style={styles.title}>Items</Text>
-
-            <FlatList
-
-              data={subItems}
-              renderItem={renderItem}
-              key={(item) => item.id}
-
-            />
-
-            <View style={styles.barcode}>
-              {ScanObject()}
-            </View>
-          </>
-        }
+          <View style={styles.barcode}>
+            {ScanObject()}
+          </View>
+        </>
       </View>
-
     </SafeAreaView>
 
   )
@@ -125,6 +120,10 @@ const styles = StyleSheet.create({
   },
 
   items: {
+    borderWidth: 1,
+    width:'75%',
+    height:'30%'
+
   },
 
   title: {
@@ -137,8 +136,7 @@ const styles = StyleSheet.create({
     width: 300,
     overflow: 'hidden',
     borderRadius: 30,
-    marginTop: 20
-
+    marginTop: 20,
   },
   flatList: {
     borderWidth: 1,

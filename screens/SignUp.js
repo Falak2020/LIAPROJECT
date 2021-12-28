@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, useWindowDimensions, ScrollView, Alert, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, useWindowDimensions, ScrollView, Alert, TouchableOpacity, FlatList, Platform } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icons from 'react-native-vector-icons/FontAwesome'
@@ -24,8 +24,8 @@ const SignUp = ({ navigation }) => {
     const [secureTextEntry, setSecureTextEntry] = useState(true)
     const [editUser, setEditUser] = useState(false)
     const [ok, setOk] = useState(false)
-    const data = useSelector(state => state)
-    const { userPinCode } = data
+    //const data = useSelector(state => state)
+    //const { userPinCode } = data
     const [pinCodeArray,setPinCodeArray] = useState([])
     
     const dispatch = useDispatch()
@@ -47,10 +47,11 @@ const SignUp = ({ navigation }) => {
         AsyncStorage.getItem('user', (err, result) => {
             if (result != null) {
                 const userArray = JSON.parse(result)
+                console.log(userArray)
                 userArray.forEach(element => {
                     if (element.pinCode !== "") {
                           // dispatch(setUser({ username: element.userName, pinCode: element.pinCode }))
-                            setPinCodeArray(prev =>[...prev,{ username: element.userName, pinCode: element.pinCode }])
+                        setPinCodeArray(prev =>[...prev,{ username: element.userName, pinCode: element.pinCode }])
                     }
                 })
             }
@@ -69,7 +70,6 @@ const SignUp = ({ navigation }) => {
                     let Array = JSON.parse(result);
                     let userFound = false;
                     Array.forEach(element => {
-
                         if (element.userName == username)
                             userFound = true;
                     })
@@ -112,7 +112,7 @@ const SignUp = ({ navigation }) => {
             Alert.alert('Please enter a valid information')
     }
 
-    const ForgetPassword = () => {
+    const ForgetPassword = () =>{
         setPassword('')
         setUserToken('')
         setEditUser(true)
@@ -144,7 +144,6 @@ const SignUp = ({ navigation }) => {
                 let Array = JSON.parse(result);
                 if (editUser) {
                     const index = Array.findIndex(element => element.userName == username);
-                    console.log(index)
                     Array.splice(index, 1, user)
                     AsyncStorage.setItem('user', JSON.stringify(Array))
                     setEditUser(false)
@@ -256,7 +255,7 @@ const SignUp = ({ navigation }) => {
                     : null
                 }
 
-                <View style={[styles.pinCodeContainer, { top: width - 170 }]} >
+                <View style={styles.pinCodeContainer} >
                     <FlatList
                         horizontal={true}
                         data={pinCodeArray}
@@ -297,6 +296,7 @@ const styles = StyleSheet.create({
     pinCodeContainer: {
         paddingVertical: 20,
         width: '100%',
+        top : Platform.OS === 'ios'? width - 170: 0
     },
     pinCode: {
         flex: 1,
