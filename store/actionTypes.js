@@ -4,7 +4,10 @@ export const SETTOKEN = 'SETTOKEN'
 
 export const SETSIGNUP = 'SETSIGNUP'
 
-export const SETUSER = 'SETUSER'
+export const SETUSER = 'SETUSER' 
+
+export const SETSERVERADDRESS = 'SETSERVERADDRESS' 
+
 
 
 

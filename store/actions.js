@@ -1,4 +1,4 @@
-import {ADDITION,SETTOKEN,SETSIGNUP,SETUSER} from './actionTypes'
+import {ADDITION,SETTOKEN,SETSIGNUP,SETUSER ,SETSERVERADDRESS} from './actionTypes'
 
 export const add = (payload) =>({
     type :ADDITION,
@@ -17,6 +17,12 @@ export const setSignUp = (payload) =>({
 })
 export const setUser = (payload) =>({
     type :SETUSER,
+    payload
+   
+})
+
+export const setServerAddressUrl = (payload) =>({
+    type :SETSERVERADDRESS,
     payload
    
 })

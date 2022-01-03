@@ -1,31 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, TextInput, SafeAreaView, Button, TouchableOpacity, FlatList, useWindowDimensions, Platform } from 'react-native'
+import { StyleSheet, Text, View, TextInput, SafeAreaView, FlatList, Alert } from 'react-native'
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useDispatch, useSelector } from 'react-redux'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Icons from 'react-native-vector-icons/Entypo'
-import { add } from '../store/actions';
 import uuid from 'react-native-uuid';
 import CustomButton from '../Components/CustomButton';
 const ScanObject = ({ navigation, route }) => {
   console.log(route.params)
   //const data = useSelector(state => state)
   // const { items } = data
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
 
   const [subItems, setSubItems] = useState([{}])
   const [root, setRoot] = useState('')
   const [data, setData] = useState([{}])
-  
+
 
   const onReadObject = e => {
+    let itemFound = false
     if (root === '') {
       setRoot(e.data)
       setData([...data, { id: uuid.v4(), value: e.data }])
     }
     else {
-      setSubItems([...subItems, { id: uuid.v4(), value: e.data }])
-      setData([...data, { id: uuid.v4(), value: e.data }])
+      subItems.forEach(item => {
+        if (item.value == e.data) {
+          itemFound = true;
+        }
+      })
+      if (itemFound)
+        Alert.alert('The Item is already found');
+
+      else {
+        setSubItems([...subItems, { id: uuid.v4(), value: e.data }])
+        setData([...data, { id: uuid.v4(), value: e.data }])
+      }
+
       //dispatch(add(e.data))
     }
   }
@@ -43,15 +53,12 @@ const ScanObject = ({ navigation, route }) => {
 
   }
   const renderItem = ({ item }) => {
-
     return (
-
       <TextInput
         style={styles.item}
         value={item.value}
         multiline
       />
-
     );
   };
 
@@ -72,12 +79,12 @@ const ScanObject = ({ navigation, route }) => {
           />
         </View>
         <>
-        <View style = {styles.items}>
-          <FlatList
-            data={subItems}
-            renderItem={renderItem}
-            key={(item) => item.id}
-          />
+          <View style={styles.items}>
+            <FlatList
+              data={subItems}
+              renderItem={renderItem}
+              key={(item) => item.id}
+            />
           </View>
           <View>
             <CustomButton text="Send" type="primary" />
@@ -116,13 +123,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     width: '100%',
-    backgroundColor: '#9FE2BF'
   },
 
   items: {
     borderWidth: 1,
-    width:'75%',
-    height:'30%'
+    width: '75%',
+    height: '30%'
 
   },
 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Icons from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
-import { setToken, setUser } from '../store/actions';
+import { setToken, setUser, setServerAddressUrl } from '../store/actions';
 import CustomButton from '../Components/CustomButton'
 import CustomInput from '../Components/CustomInput'
 import CustomUser from '../Components/CustomUser'
@@ -14,35 +14,34 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler'
 
 const SignUp = ({ navigation }) => {
 
-    const { height, width } = useWindowDimensions();
-
+    const { height, width } = useWindowDimensions()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [email, setEmail] = useState('')
+    const [ServerAddress, setServerAddress] = useState('')
     const [userToken, setUserToken] = useState('')
     const [pinCode, setPinCode] = useState('')
     const [secureTextEntry, setSecureTextEntry] = useState(true)
     const [editUser, setEditUser] = useState(false)
     const [ok, setOk] = useState(false)
+    const [registerWithoutPinCode, setRegisterWithoutPinCode] = useState(false)
+
     //const data = useSelector(state => state)
-    //const { userPinCode } = data
-    const [pinCodeArray,setPinCodeArray] = useState([])
-    
+    // const { newServerAddress } = data
+    const [pinCodeArray, setPinCodeArray] = useState([])
+
     const dispatch = useDispatch()
 
     useEffect(() => {
-     // AsyncStorage.removeItem('user')
-       
+       //AsyncStorage.removeItem('user')
         const unsubscribe = navigation.addListener('focus', () => {
             getPinCode()
             NewUser()
             console.log('Refreshed!');
-          });
-          return unsubscribe;
-
+        });
+        return unsubscribe;
     }, [navigation])
-    
-    const getPinCode = ()=>{
+
+    const getPinCode = () => {
         setPinCodeArray([])
         AsyncStorage.getItem('user', (err, result) => {
             if (result != null) {
@@ -50,21 +49,77 @@ const SignUp = ({ navigation }) => {
                 console.log(userArray)
                 userArray.forEach(element => {
                     if (element.pinCode !== "") {
-                          // dispatch(setUser({ username: element.userName, pinCode: element.pinCode }))
-                        setPinCodeArray(prev =>[...prev,{ username: element.userName, pinCode: element.pinCode }])
+                        // dispatch(setUser({ username: element.userName, pinCode: element.pinCode }))
+                        setPinCodeArray(prev => [...prev, { username: element.userName, pinCode: element.pinCode }])
                     }
                 })
             }
         })
         return pinCodeArray
     }
-    
+
     const toggleSecureTextEntry = () => {
         setSecureTextEntry(!secureTextEntry)
     }
 
+    function validURL(str) {
+        var pattern = new RegExp(
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        return !!pattern.test(str);
+    }
+
+
+    function isIP(address) {
+        var r = new RegExp('^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])');
+        return r.test(address)
+    }
+
+    function isDomain(address) {
+        var r = new RegExp('^(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}');
+        return r.test(address)
+    }
+
+    const changeServerAddress = (address) => {
+        if (ServerAddress.startsWith('https://') || ServerAddress.startsWith('http://')) {
+            setServerAddress(address)
+            return true
+        }
+        else {
+            if (isIP(address)){
+                setServerAddress('http://' + address)
+                return true
+            }
+                
+            else {
+                if (isDomain(address)){
+                    setServerAddress('https://' + address)
+                    return true
+                }
+                    
+                else{
+                    setServerAddress('')
+                    return false
+                }
+            }   
+        }
+        if((!isIP(address) && !isDomain(address))){ 
+            setServerAddress('')
+            return false
+           
+        }
+         
+    }
+
+
     const onRegister = () => {
-        if ((username !== '') && (password !== '') && (email !== '') && (userToken !== '')) {
+
+        if ((username.trim() !== '') && (password.trim() !== '') && (ServerAddress.trim() !== '') && (userToken.trim() !== '')) {
+
+           if(changeServerAddress(ServerAddress)){
             AsyncStorage.getItem('user', (err, result) => {
                 if (result != null) {
                     let Array = JSON.parse(result);
@@ -80,7 +135,7 @@ const SignUp = ({ navigation }) => {
                             'set you pin code',
                             [
                                 { text: "Ok", style: 'destructive', onPress: () => setOk(true) },
-                                { text: "Cansle", style: 'destructive', onPress: () => { onRegisterUser() } }
+                                { text: "Cansle", style: 'destructive', onPress: () => { setRegisterWithoutPinCode(true) } }
                             ]
                         )
                     }
@@ -101,18 +156,24 @@ const SignUp = ({ navigation }) => {
                         'set you pin code',
                         [
                             { text: "Ok", style: 'destructive', onPress: () => setOk(true) },
-                            { text: "Cansle", style: 'destructive', onPress: () => { onRegisterUser() } }
+                            { text: "Cansle", style: 'destructive', onPress: () => { setRegisterWithoutPinCode(true) } }
                         ]
                     )
                 }
             })
+
+           }
+           else{
+            Alert.alert('Please enter a valid server address') 
+           }
+           
         }
 
         else
             Alert.alert('Please enter a valid information')
     }
 
-    const ForgetPassword = () =>{
+    const ForgetPassword = () => {
         setPassword('')
         setUserToken('')
         setEditUser(true)
@@ -121,20 +182,23 @@ const SignUp = ({ navigation }) => {
     const NewUser = () => {
         setUsername('')
         setPassword('')
-        setEmail('')
+        setServerAddress('')
         setUserToken('')
         setPinCode('')
     }
 
-    
-
     const onRegisterUser = () => {
-        setOk(false)
+        if (ok)
+            setOk(false)
+        if (registerWithoutPinCode)
+            setRegisterWithoutPinCode(false)
+
+
         let user = {
             id: username.length,
             userName: username,
             password: password,
-            email: email,
+            ServerAddress: ServerAddress,
             userToken: userToken,
             pinCode: pinCode
         }
@@ -154,8 +218,8 @@ const SignUp = ({ navigation }) => {
                 }
 
                 dispatch(setToken(userToken))
-                navigation.navigate('Home',{
-                    username :user.userName
+                navigation.navigate('Home', {
+                    username: user.userName
                 })
             }
 
@@ -163,8 +227,8 @@ const SignUp = ({ navigation }) => {
                 let Array = [user]
                 AsyncStorage.setItem('user', JSON.stringify(Array))
                 dispatch(setToken(userToken))
-                navigation.navigate('Home',{
-                    username : user.userName
+                navigation.navigate('Home', {
+                    username: user.userName
                 })
             }
         })
@@ -222,14 +286,18 @@ const SignUp = ({ navigation }) => {
                 </View>
 
                 <CustomInput
-                    placeholder="Email"
-                    value={email}
-                    setValue={setEmail} />
+                    placeholder="Server Address"
+                    value={ServerAddress}
+                    setValue={setServerAddress}
+                    onServerAddress={ServerAddress}
+                />
 
                 <CustomInput
                     placeholder="Token"
                     value={userToken}
-                    setValue={setUserToken} />
+                    setValue={setUserToken}
+
+                />
                 <CustomButton
                     text="Register"
                     onPress={onRegister}
@@ -253,6 +321,17 @@ const SignUp = ({ navigation }) => {
                         />
                     </>
                     : null
+                }
+                {
+                    registerWithoutPinCode ?
+                        <>
+                            <CustomButton
+                                text="Save Without PinCode"
+                                onPress={onRegisterUser}
+                                type='secondary'
+                            />
+                        </>
+                        : null
                 }
 
                 <View style={styles.pinCodeContainer} >
@@ -296,7 +375,7 @@ const styles = StyleSheet.create({
     pinCodeContainer: {
         paddingVertical: 20,
         width: '100%',
-        top : Platform.OS === 'ios'? width - 170: 0
+        top: Platform.OS === 'ios' ? width - 170 : 0
     },
     pinCode: {
         flex: 1,

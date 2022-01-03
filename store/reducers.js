@@ -1,11 +1,12 @@
-import {ADDITION,SETTOKEN,SETSIGNUP,SETUSER} from './actionTypes'
+import {ADDITION,SETTOKEN,SETSIGNUP,SETUSER ,SETSERVERADDRESS} from './actionTypes'
 
 const intialState ={
     items:[{}],
     root:'',
     token:'',
     isSignUp:false,
-    userPinCode:[]
+    userPinCode:[],
+    newServerAddress:''
 }
 
 export const mainReducer = (state= intialState,action)=>{
@@ -21,7 +22,9 @@ export const mainReducer = (state= intialState,action)=>{
 
         case SETUSER : 
         return{ userPinCode:state.userPinCode?[...state.userPinCode,action.payload]:[action.payload] } 
-          
+        
+        case SETSERVERADDRESS:
+          return {newServerAddress :"https://" + action.payload}
         default:
           return state;
     }
