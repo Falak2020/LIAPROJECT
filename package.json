@@ -15,11 +15,14 @@
     "@react-navigation/drawer": "^6.1.8",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
+    "axios": "^0.24.0",
+    "crypto-js": "^4.1.1",
     "firebase": "8.2.3",
     "json-server": "^0.17.0",
     "react": "17.0.2",
     "react-native": "0.66.3",
     "react-native-alert-input": "^1.1.1",
+    "react-native-auto-size-text": "^1.1.1",
     "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git",
     "react-native-dialog-input": "^1.0.8",
     "react-native-file-access": "^2.0.0",
@@ -33,7 +36,8 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.0.0",
     "react-redux": "^7.2.6",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "write-json-file": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

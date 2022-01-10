@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { StyleSheet, Text, View, useWindowDimensions, Pressable ,Platform } from 'react-native'
+import { StyleSheet, Text, View, useWindowDimensions, Pressable, Platform } from 'react-native'
 
 import Icons from 'react-native-vector-icons/Entypo'
 
@@ -14,43 +14,47 @@ const Home = ({ navigation, route }) => {
     const { width, height } = useWindowDimensions();
     const { token } = useSelector(state => state)
     const dispatch = useDispatch()
-    const {username} = route.params
+    const { username } = route.params
     const LogOut = () => {
         dispatch(setToken(''))
-        navigation.navigate('signUp')
+        navigation.navigate('signUp', { screenName: 'Home' })
     }
-
 
     return (
         <View style={styles.container}>
-            <View style = {styles.username}>
-                <Icons
-                    size={30}
-                    name="user"
-                    color="green"
-                />
-                <Text style = {styles.usernameText}>{username}</Text>
-            </View>
-             
+
+
             <Text style={styles.title}>O3LIMS</Text>
             <CustomButton
                 text="Scan"
                 type="primary"
                 onPress={() => navigation.navigate('ScanObject')}
             />
-            <Pressable
-                style={styles.logoutContainer}
-                onPress={() => LogOut()}
-            >
-                <Icons
-                    size={30}
-                    name="log-out"
-                    color="red"
-                />
-                <Text style={styles.logoutText}>
-                    Log Out
-                </Text>
-            </Pressable>
+
+            <View style={[styles.usernamecontainer,{ top: Platform.OS === 'ios' ? width - 2 : 100 }]}>
+                <View style={styles.username}>
+                    <Icons
+                        size={30}
+                        name="user"
+                        color="green"
+                    />
+                    <Text style={styles.usernameText}>{username}</Text>
+                </View>
+                <Pressable
+                    style={[styles.logoutContainer]}
+                    onPress={() => LogOut()}
+                >
+                    <Icons
+                        size={30}
+                        name="log-out"
+                        color="red"
+                    />
+                    <Text style={styles.logoutText}>
+                        Log Out
+                    </Text>
+                </Pressable>
+            </View>
+
         </View>
     )
 }
@@ -64,15 +68,15 @@ const styles = StyleSheet.create({
         padding: 20,
 
     },
-    username:{
-        flexDirection :'row',
-        alignItems:'flex-end'
+    username: {
+        flexDirection: 'row',
+        alignItems: 'flex-end'
     },
-    usernameText:{
+    usernameText: {
         marginLeft: 6,
         color: 'green',
         fontWeight: '500',
-        fontSize:20
+        fontSize: 20
     },
     title: {
         fontSize: 30,
@@ -83,14 +87,18 @@ const styles = StyleSheet.create({
     logoutContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        top : Platform.OS === 'ios'? width - 2: 100
+        // top : Platform.OS === 'ios'? width - 2: 100
 
     },
     logoutText: {
         marginLeft: 6,
         color: 'red',
         fontWeight: '500'
+    },
+    usernamecontainer:{
+        width:'100%',
+        flexDirection:'row',
+        justifyContent:'space-around'
+        
     }
-
-
 })

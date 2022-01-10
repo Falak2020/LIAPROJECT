@@ -18,7 +18,7 @@ target 'qrcode' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera/Permission-Camera.podspec"
  
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
-
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
   target 'qrcodeTests' do
     inherit! :complete
     # Pods for testing

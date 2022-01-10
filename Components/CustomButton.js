@@ -1,7 +1,9 @@
 import React from 'react'
 import { View, Text, Button, StyleSheet, Pressable } from 'react-native'
 
-const CustomButton = ({ onPress, text, type, bgColor, fgColor }) => {
+import color from '../Constants/color'
+
+const CustomButton = ({ onPress, text, type, bgColor }) => {
     return (
         <Pressable
             onPress={onPress}
@@ -23,10 +25,10 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     container_primary: {
-        backgroundColor: '#3B71F3',
+        backgroundColor: color.primary,
     },
     container_secondary: {
-        backgroundColor: 'gray',
+        backgroundColor: color.secondary,
     },
     
     text_primary: {

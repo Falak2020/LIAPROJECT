@@ -8,27 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* qrcodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* qrcodeTests.m */; };
-		11B7212074E740EDBF857101 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 873A9EA17B9A40AD8FD74471 /* AntDesign.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		30D50976B7A84B218571D35B /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 368675CAFFA54AFF9651E1B6 /* SimpleLineIcons.ttf */; };
-		3F8D934E9D214E6D858D215C /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 99DF2AC7A66E441B91DF8562 /* MaterialIcons.ttf */; };
-		54A0A02C5CCB406181AF3BB7 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7EE05A9EE8D4F1EA7C60184 /* EvilIcons.ttf */; };
-		58C1C8B89C3A407692A376A4 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 855DEC5E8E744391BD43B735 /* Ionicons.ttf */; };
-		5CB5FD417E7446119E51AC9E /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1098D2396B1F4E1E8CCBA90E /* Entypo.ttf */; };
-		694DA1BDD1874E8B92028180 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B727D9BB1F0B480E900BD8BD /* Zocial.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		851129D5FE0247C49CE203D2 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 36D856F43E334974B8A35A5A /* Foundation.ttf */; };
-		9B55EC8386514324B21E813C /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC117984EFD548969B8E90DA /* Feather.ttf */; };
-		9CA3B377DDCF4C4D8D6537A4 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F274502C40B42FABE9EB51F /* Fontisto.ttf */; };
-		9EAF536B3657465ABF99E297 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3365CBB328B74DB989F4D191 /* FontAwesome5_Regular.ttf */; };
-		A34CF03F66644ABCB984EFFC /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9EF88FD4DB744DC8E504A86 /* FontAwesome5_Brands.ttf */; };
-		A3FD28E5AE074FF98D4764B5 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F03C4D0969F497C9C794A3A /* Octicons.ttf */; };
 		C59EB6FF872AB2A2C0D822D6 /* libPods-qrcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E98806E3F6E2D4277585FD /* libPods-qrcode.a */; };
-		DBD04594279D4705A1412BC0 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6F623AF2FB1472AB35B29A6 /* MaterialCommunityIcons.ttf */; };
-		DFE0C9F82E834C178494A355 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0B7ECE601514F30B4CCA91A /* FontAwesome.ttf */; };
-		E2C5C066B87649688C12E087 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F26DED7299E4E909FB70AE2 /* FontAwesome5_Solid.ttf */; };
 		FBD82F4441875FC1390298FA /* libPods-qrcode-qrcodeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8009E9C91295DE95B80429F2 /* libPods-qrcode-qrcodeTests.a */; };
 /* End PBXBuildFile section */
 
@@ -300,22 +284,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				11B7212074E740EDBF857101 /* AntDesign.ttf in Resources */,
-				5CB5FD417E7446119E51AC9E /* Entypo.ttf in Resources */,
-				54A0A02C5CCB406181AF3BB7 /* EvilIcons.ttf in Resources */,
-				9B55EC8386514324B21E813C /* Feather.ttf in Resources */,
-				DFE0C9F82E834C178494A355 /* FontAwesome.ttf in Resources */,
-				A34CF03F66644ABCB984EFFC /* FontAwesome5_Brands.ttf in Resources */,
-				9EAF536B3657465ABF99E297 /* FontAwesome5_Regular.ttf in Resources */,
-				E2C5C066B87649688C12E087 /* FontAwesome5_Solid.ttf in Resources */,
-				9CA3B377DDCF4C4D8D6537A4 /* Fontisto.ttf in Resources */,
-				851129D5FE0247C49CE203D2 /* Foundation.ttf in Resources */,
-				58C1C8B89C3A407692A376A4 /* Ionicons.ttf in Resources */,
-				DBD04594279D4705A1412BC0 /* MaterialCommunityIcons.ttf in Resources */,
-				3F8D934E9D214E6D858D215C /* MaterialIcons.ttf in Resources */,
-				A3FD28E5AE074FF98D4764B5 /* Octicons.ttf in Resources */,
-				30D50976B7A84B218571D35B /* SimpleLineIcons.ttf in Resources */,
-				694DA1BDD1874E8B92028180 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,8 +529,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = A2S7PGLSD3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = qrcode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -576,6 +546,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = qrcode;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -589,7 +560,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = A2S7PGLSD3;
 				INFOPLIST_FILE = qrcode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -600,6 +571,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "-";
 				PRODUCT_NAME = qrcode;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
