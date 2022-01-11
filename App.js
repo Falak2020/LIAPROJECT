@@ -11,11 +11,11 @@ import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import PinCode from './screens/PinCode';
 import TestApi from './screens/TestApi';
-
+import color from './Constants/color'
 const Stack = createStackNavigator()
 
 const App = () => {
-  return (  
+  return ( 
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
@@ -26,7 +26,7 @@ const App = () => {
            // headerLeft:null,
             headerTintColor:'#fff',
             headerStyle: {
-              backgroundColor: '#0080ff',
+              backgroundColor: color.primary,
             }
           }}
         >

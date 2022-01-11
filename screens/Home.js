@@ -10,11 +10,12 @@ import SignUp from '../screens/SignUp'
 import { setToken, setUser } from '../store/actions';
 
 const Home = ({ navigation, route }) => {
-
+   
+    const { username, password, userToken, serverAddress } = route.params
     const { width, height } = useWindowDimensions();
     const { token } = useSelector(state => state)
     const dispatch = useDispatch()
-    const { username } = route.params
+
     const LogOut = () => {
         dispatch(setToken(''))
         navigation.navigate('signUp', { screenName: 'Home' })
@@ -22,16 +23,19 @@ const Home = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-
-
             <Text style={styles.title}>O3LIMS</Text>
             <CustomButton
                 text="Scan"
                 type="primary"
-                onPress={() => navigation.navigate('ScanObject')}
+                onPress={() => navigation.navigate('ScanObject',{
+                    username: username,
+                    password: password,
+                    userToken: userToken,
+                    serverAddress: serverAddress
+                })}
             />
 
-            <View style={[styles.usernamecontainer,{ top: Platform.OS === 'ios' ? width - 2 : 100 }]}>
+            <View style={[styles.usernamecontainer,{ top: Platform.OS === 'ios' ? width - 2 : 300 }]}>
                 <View style={styles.username}>
                     <Icons
                         size={30}

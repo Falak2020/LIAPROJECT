@@ -5,17 +5,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import Icons from 'react-native-vector-icons/Entypo'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import uuid from 'react-native-uuid';
+import axios from 'axios'
+import { SHA1 } from 'crypto-js';
+
+
 import CustomButton from '../Components/CustomButton';
 import CustomInput from '../Components/CustomInput';
 const RNFS = require('react-native-fs');
-const ScanObject = ({ navigation }) => {
+const ScanObject = ({ navigation, route }) => {
+
+  const { username, password, userToken, serverAddress } = route.params
+  //Api
+  const url = '/perl/o3api.cgi'
+  const encrypt = (text: string) => `*${SHA1(SHA1(text))}`.toUpperCase();
+  const encryptedPassword = encrypt(`${encrypt(password)}${userToken}`)
   
   //const data = useSelector(state => state)
   // const { items } = data
   //const dispatch = useDispatch()
   const [subItems, setSubItems] = useState([])
   const [items, setItems] = useState([])
-  
+
   const [root, setRoot] = useState('')
   const [jsonArray, setJsonArray] = useState([{}])
   const [item, setItem] = useState('')
@@ -27,10 +37,10 @@ const ScanObject = ({ navigation }) => {
       //setData([ { parentObject: e.data }])
     }
     else {
-      if(e.data === root)
-       itemFound = true;
+      if (e.data === root)
+        itemFound = true;
       subItems.forEach(item => {
-        if ((item.value == e.data)||(e.data == root)) {
+        if ((item.value == e.data) || (e.data == root)) {
           itemFound = true;
         }
       })
@@ -39,7 +49,7 @@ const ScanObject = ({ navigation }) => {
 
       else {
         setSubItems([...subItems, { id: uuid.v4(), value: e.data }])
-        setItems([...items,e.data])
+        setItems([...items, e.data])
       }
 
       //dispatch(add(e.data))
@@ -79,9 +89,11 @@ const ScanObject = ({ navigation }) => {
   const toggleManually = () => {
     setManually(!manually)
   }
-  const handleSetManually = (value)=>{
+  const handleSetManually = (value) => {
     let itemFound;
     setManually(false)
+    if (value.trim() === root)
+      itemFound = true;
     subItems.forEach(item => {
       if ((item.value == value)) {
         itemFound = true;
@@ -91,35 +103,51 @@ const ScanObject = ({ navigation }) => {
       Alert.alert('The Item is already found');
 
     else {
-      setSubItems([...subItems, { id: uuid.v4(), value: value }])
-      setItems([...items,value])
-     // setData([...data, { id: uuid.v4(), value: value }])
-      setItem('')
+      if (root === '') {
+        setRoot(value);
+        setItem('')
+      }
+
+      else {
+        setSubItems([...subItems, { id: uuid.v4(), value: value }])
+        setItems([...items, value])
+        setItem('')
+      }
+
     }
   }
   const deleteRoot = () => {
-
-   // setData(data.filter(item => item.value !== root))
     setRoot('')
   }
 
   const deleteItem = (id) => {
-    let exists=subItems.find(item=>item.id===id)
+    let exists = subItems.find(item => item.id === id)
     let index = items.indexOf(exists.value)
     setSubItems(subItems.filter(item => item.id !== id))
-    setItems(items.splice(index,1))
+    setItems(items.splice(index, 1))
   }
- 
- function  handleSend(){
-    console.log(items)
-    let Array=[]
-    Array=[{parentObject:root},{child:items}]
-    console.log(Array)
-    //var filePath = RNFS.DocumentDirectoryPath +'/data.json';
+
+  function handleSend() {
     
+    let Obj={}
+    Obj = {parentObject: root ,  child: items }
+    var formData = new FormData();
+    formData.append('action', 'mtrconnect');
+    formData.append('username', username);
+    formData.append('password', encryptedPassword);
+    formData.append('Data',JSON.stringify(Obj));
+    console.log(formData)
+    
+    axios.post(url, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      baseURL: serverAddress
+    }).then((res) => {
+      console.log(res)
+    })
+//var filePath = RNFS.DocumentDirectoryPath + '/data.json';
     //console.log(filePath)
-   // RNFS.writeFile(filePath,'jjj')
-    
+    //RNFS.writeFile(filePath, JSON.stringify(Array))
+
   }
   return (
     <SafeAreaView>
@@ -164,7 +192,7 @@ const ScanObject = ({ navigation }) => {
             <CustomButton text="Can't scan enter manually" type="secondary" onPress={toggleManually} />
             {
               manually ?
-                <View style = {styles.itemContainer}>
+                <View style={styles.itemContainer}>
                   <CustomInput
                     placeholder="Set Your code"
                     value={item}
@@ -175,7 +203,7 @@ const ScanObject = ({ navigation }) => {
                       name="check-circle"
                       size={45}
                       color='green'
-                      onPress = {()=>handleSetManually(item)}
+                      onPress={() => handleSetManually(item)}
                     /> : undefined
                   }
                 </View>
@@ -184,8 +212,8 @@ const ScanObject = ({ navigation }) => {
             }
           </View>
 
-          <View style= {styles.sendContainer}>
-            <CustomButton text="Send" type="primary" onPress = {handleSend} />
+          <View style={styles.sendContainer}>
+            <CustomButton text="Send" type="primary" onPress={handleSend} />
           </View>
 
           <View style={styles.barcode}>
@@ -258,12 +286,12 @@ const styles = StyleSheet.create({
   enterManually: {
     width: '75%'
   },
-  itemContainer :{ 
-    flexDirection:'row',
-    alignItems:'center'    
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  sendContainer:{
-    width:'75%',
-    marginTop:5
+  sendContainer: {
+    width: '75%',
+    marginTop: 5
   }
 })

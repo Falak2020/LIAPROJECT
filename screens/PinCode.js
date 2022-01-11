@@ -13,7 +13,6 @@ const PinCode = ({ navigation, route }) => {
 
     const [pinCode, setPinCode] = useState('')
     const { username, password, userToken, serverAddress } = route.params
-
     //Api
     const url ='/perl/o3api.cgi'
     const encrypt = (text: string) => `*${SHA1(SHA1(text))}`.toUpperCase();
@@ -47,7 +46,10 @@ const PinCode = ({ navigation, route }) => {
                         const myArray = data.split("{");
                         if (myArray[1].includes("0")) {
                             navigation.navigate('Home', {
-                                username: username
+                                username: username,
+                                password: password,
+                                userToken: userToken,
+                                serverAddress: serverAddress
                             })
                         }
                         else {

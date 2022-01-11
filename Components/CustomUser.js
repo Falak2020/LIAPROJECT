@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
     },
     username: {
-        color: 'white',
+        color:color.svart,
         fontWeight: '700'
 
     }

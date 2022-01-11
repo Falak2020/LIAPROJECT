@@ -10,6 +10,7 @@ import CustomInput from '../Components/CustomInput'
 import CustomUser from '../Components/CustomUser'
 import axios from 'axios'
 import { SHA1 } from 'crypto-js';
+import Header from '../Components/Header'
 
 const SignUp = ({ navigation, route }) => {
 
@@ -294,11 +295,13 @@ const SignUp = ({ navigation, route }) => {
 
     return (
         <ScrollView>
-
+           
             <View style={styles.container}>
+            
                 {error ?
                     <Text style={styles.error}>{error}</Text> :
-                    <Text style={styles.title}> Create a new account</Text>
+                    <Header />
+                    //<Text style={styles.title}> Create a new account</Text>
                 }
                 <CustomInput
                     placeholder="User Name"
